@@ -6,5 +6,5 @@ service iptables restart
 rm /etc/nginx/conf.d/*.conf
 cp  /vagrant/install/nginx/nginx.conf /etc/nginx/nginx.conf
 cp  /vagrant/install/nginx/proxy.conf /etc/nginx/conf.d/proxy.conf
-service nginx enable
+chkconfig nginx on
 service nginx start
