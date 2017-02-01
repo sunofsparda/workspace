@@ -11,3 +11,4 @@ mv /home/vagrant/apache-tomcat-8.5.11 /apps/tomcat1
 chown vagrant:vagrant /apps/ -R
 chmod +x /apps/tomcat1/bin/startup.sh
 runuser -l vagrant -c '/apps/tomcat1/bin/startup.sh'
+echo "runuser -l vagrant -c '/apps/tomcat1/bin/startup.sh'" >> /etc/rc.local
