@@ -1,62 +1,8 @@
 || ISSUE | HOW TO FIND | TIME TO FIND | HOW TO FIX | TIME TO FIX
 --- | --- | --- | --- |---| ---  
-1 | The website is down | a) Check that webserver (apache httpd) is running : <br> `netstat -tulpan` <br> `service httpd status`  |  qwerty | qwerty | qwerty 
+1 | The website is down | 1) Check that webserver (apache httpd) is running : <br> `netstat -tulpan` <br> 2) Check httpd.conf: <br> cat /etc/httpd/conf/httpd.conf  |  qwerty | qwerty | qwerty 
 2 | qwe | qwe | qwe | qwe | qwe 
 3 | qwe | qwe | qwe | qwe | qwe 
-
-
-#############	ISSUE	###############
-1.	The website is down.
-
-
-####################################### 
-#############	HOW TO FIND	###########
-1. - Check that webserver is running:
-
-
-#######################################
-
-
-
-
-#############	TIME TO FIND	#######
-1. 
-
-
-#######################################
-
-
-
-
-#############	HOW TO FIX	###########
-
-
-
-
-
-#######################################
-
-
-
-
-#############	TIME TO FIX	###########
-
-
-
-
-
-
-#######################################
-
-
-
-
-
-
-
-
-
-
 
 
 
