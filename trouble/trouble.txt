@@ -1,3 +1,40 @@
+netstat -na
+netstat -nr
+netstat –natupl | grep java
+
+curl -IL $url
+curl -sL -w "%{http_code}" $url -o /dev/null
+curl -sL -w "%{time_total}" $url -o /dev/null
+curl --header "Hostname:$hostname" $url
+
+ps ef -o command,vsize,rss,%mem,size
+ps ef -o command,vsize,rss,%mem,size | grep java
+
+uptime
+free -m
+df -h
+du -sh $path/
+du -sh $path/*
+
+iptables -L -n
+vi /etc/sysconfig/iptables
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #### check httpd is running
 netstat -tulpan
 # check :80 port
@@ -91,5 +128,15 @@ vi /etc/httpd/conf.d/workers.properties
 sudo chattr -i /etc/sysconfig/iptables
 iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT 
 iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT 
-iptables-save | tee /etc/sysconfig/iptables  
-chattr +i /etc/sysconfig/iptables
+#iptables-save | tee /etc/sysconfig/iptables  
+#chattr +i /etc/sysconfig/iptables
+#(as root)
+iptables-save > iptables.dump # save current dump to a file
+iptables-restore < iptables.dump # to autostart
+iptables -L
+
+jk_handler::mod_jk.c (2796): Could not find a worker for worker name=tomcat.worker   
+
+cat /var/log/httpd/modjk.log 
+
+
