@@ -1,6 +1,6 @@
 || ISSUE | HOW TO FIND | TIME TO FIND | HOW TO FIX | TIME TO FIX
 --- | --- | --- | --- |---| ---  
-1 | The website is down | a) Check that webserver (apache httpd) is running :      service httpd status       | 290 | 286 | 289 
+1 | The website is down | a) Check that webserver (apache httpd) is running :      service httpd status     12eqwe  | 290 | 286 | 289 
 2 | 301 | 283 | 290 | 286 | 289 
 3 | 301 | 283 | 290 | 286 | 289 
 
