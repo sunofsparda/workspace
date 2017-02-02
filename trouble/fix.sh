@@ -24,6 +24,8 @@ sed -i 's/IPTABLES_SAVE_ON_RESTART="no"/IPTABLES_SAVE_ON_RESTART="yes"/g' /etc/s
 service iptables restart
 
 # restarting httpd webserver
+service httpd restart
+
 # enabling and starting tomcat service
 chkconfig tomcat on
 service tomcat start
