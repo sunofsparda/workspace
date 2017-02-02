@@ -1,5 +1,4 @@
 || ISSUE | HOW TO FIND | TIME TO FIND | HOW TO FIX | TIME TO FIX
---- | --- | --- | --- |---| ---  
 1 | The website is down | a) Check that webserver (apache httpd) is running : <br> service httpd status | qwerty | qwerty | qwerty 
 2 | qwe | qwe | qwe | qwe | qwe 
 3 | qwe | qwe | qwe | qwe | qwe 
