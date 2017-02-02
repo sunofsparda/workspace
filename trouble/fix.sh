@@ -23,6 +23,9 @@ sed -i 's/IPTABLES_SAVE_ON_STOP="no"/IPTABLES_SAVE_ON_STOP="yes"/g' /etc/sysconf
 sed -i 's/IPTABLES_SAVE_ON_RESTART="no"/IPTABLES_SAVE_ON_RESTART="yes"/g' /etc/sysconfig/iptables-config
 service iptables restart
 
+# update to the highest priority installed java
+alternatives --auto java
+
 # restarting httpd webserver
 service httpd restart
 
