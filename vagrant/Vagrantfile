@@ -37,8 +37,8 @@ Vagrant.configure("2") do |config|
     end
 
   config.vm.provision "shell", inline: <<-SHELL
-    yum update -y > /dev/null 2>&1
-    yum install epel-release > /dev/null 2>&1
+    yum update -y > /dev/null
+    yum install epel-release > /dev/null
   SHELL
 end
 

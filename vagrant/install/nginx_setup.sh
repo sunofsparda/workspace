@@ -1,5 +1,5 @@
 #!/bin/bash
-yum -y install nginx  > /dev/null 2>&1
+yum -y install nginx  > /dev/null
 iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
 service iptables save
 service iptables restart
