@@ -46,7 +46,7 @@ sudo service tomcat stop
 sudo service tomcat status
 #tomcat is running
 # oO
-
+vi /etc/httpd/conf.d/vhost.conf
 java -version
 -bash: /usr/bin/java: /lib/ld-linux.so.2: bad ELF interpreter: No such file or dire
 
@@ -81,6 +81,15 @@ netstat -tulpan | grep java
 #check tomcat site ip:8080
 #site is acccessible
 cat /etc/httpd/conf.d/workers.properties 
+vi /etc/httpd/conf.d/workers.properties 
 #different ip and worker name "worker-jk@appname"
 # worker.worker-jk@ppname.host=192.168.56.100
 
+
+
+########### iptables
+sudo chattr -i /etc/sysconfig/iptables
+iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT 
+iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT 
+iptables-save | tee /etc/sysconfig/iptables  
+chattr +i /etc/sysconfig/iptables
