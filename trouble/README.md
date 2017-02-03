@@ -1,6 +1,6 @@
 # The website is down
 
-| ISSUE | HOW TO FIND | TIME TO FIND | HOW TO FIX | TIME TO FIX
+|   | ISSUE | HOW TO FIND | TIME TO FIND | HOW TO FIX | TIME TO FIX
 --- | --- | --- | --- |---| ---  
 1 | Going to $SERVER_IP, getting redirect to http://mntlab | 1) Check server config files: <br> `cat /etc/httpd/conf/httpd.conf` |5m| Remove **redirect** directive with entire *VirtualHost* block, we have it in **vhost.conf**| 20m 
 2 | Requests are going to httpd only, not forwarding to tomcat server | 1) Check virtual host config file:  <br> `cat /etc/httpd/conf.d/vhost.conf` | 5m |  Edit **VirtualHost** directive in **vhost.conf**, change address to * , to enable bind on all interfaces | 50m
