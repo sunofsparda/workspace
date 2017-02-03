@@ -3,7 +3,7 @@
 || ISSUE | HOW TO FIND | TIME TO FIND | HOW TO FIX | TIME TO FIX
 --- | --- | --- | --- |---| ---  
 1 | Going to $SERVER_IP, getting redirect to http://mntlab | 1) Check server config files: <br> `cat /etc/httpd/conf/httpd.conf` |60| Remove *redirect* directive with entire *VirtualHost* block, we have it in *vhost.conf*| 15 
-2 | Request are going to httpd, not to tomcat server | <br> `cat /etc/httpd/conf.d/vhost.conf` <br> 1) Check mod_jk log <br> `cat /var/log/httpd/modjk.log` <br> 2) Check virtual host config file: <br> `cat /etc/httpd/conf.d/workers.properties` | qwe |  <br> Edit *VirtualHost* directive in *vhost.conf* and replace address with *  | qwe 
+2 | Requests are going to httpd only, not forwarding to tomcat server | 1) Check mod_jk log <br> `cat /var/log/httpd/modjk.log` <br> 2) Check virtual host and workers config files:  <br> `cat /etc/httpd/conf.d/vhost.conf` <br> Log files says that Tomcat is not started or listening on wrong port. <br> `cat /etc/httpd/conf.d/workers.properties` | qwe |  Edit *VirtualHost* directive in *vhost.conf*  | qwe 
 3 | qwe | qwe | qwe | qwe | qwe 
 
 
