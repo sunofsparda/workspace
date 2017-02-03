@@ -2,9 +2,11 @@
 
 || ISSUE | HOW TO FIND | TIME TO FIND | HOW TO FIX | TIME TO FIX
 --- | --- | --- | --- |---| ---  
-1 | Going to $SERVER_IP, getting redirect to http://mntlab | 1) Check server config files: <br> `cat /etc/httpd/conf/httpd.conf` |5| Remove *redirect* directive with entire *VirtualHost* block, we have it in *vhost.conf*| 20m 
-2 | Requests are going to httpd only, not forwarding to tomcat server | 1) Check mod_jk log <br> `cat /var/log/httpd/modjk.log` <br> 2) Check virtual host and workers config files:  <br> `cat /etc/httpd/conf.d/vhost.conf` <br> Log file says that Tomcat is not started or listening on wrong port. And worker name is wrong. <br> `cat /etc/httpd/conf.d/workers.properties` | 5m |  Edit *VirtualHost* directive in *vhost.conf* <br> Fix wrong worker name and ip/port in *workers.properties*   | 50m
-3 | qwe | qwe | qwe | qwe | qwe 
+1 | Going to $SERVER_IP, getting redirect to http://mntlab | 1) Check server config files: <br> `cat /etc/httpd/conf/httpd.conf` |5m| Remove *redirect* directive with entire *VirtualHost* block, we have it in *vhost.conf*| 20m 
+2 | Requests are going to httpd only, not forwarding to tomcat server | 1) Check mod_jk log <br> `cat /var/log/httpd/modjk.log` <br> 2) Check virtual host and workers config files:  <br> `cat /etc/httpd/conf.d/vhost.conf` <br> Log file says that Tomcat is not started or listening on wrong port. And worker name is wrong. <br> `cat /etc/httpd/conf.d/workers.properties` | 5m |  Edit *VirtualHost* directive in *vhost.conf*, change address to * , to enable bind on all interfaces <br> Fix wrong worker name and ip/port in *workers.properties*   | 50m
+3 | Recieving error page | 1) Checking site with `curl` and getting 503 error. Tomcat unavailible. <br> 2) Check Tomcat is running <br> `netstat -tulpan` <br> there are no services that listening to 8005,8080 ports | 20m | Start Tomcat server <br> `service tomcat start` | 1m
+4 | - | - | 20m | - | 1m
+
 
 
 
