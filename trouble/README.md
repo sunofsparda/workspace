@@ -42,7 +42,7 @@ ps -ef | grep httpd
 ps -ef | grep tomcat
 
 What configuration files are used to make components work with each other?
-workers.properties vhost.conf 
+httpd.conf vhost.conf workers.properties 
 
 What does it mean: “load average: 1.18, 0.95, 0.83”?
 The load average represents the average system load over a period of time.
