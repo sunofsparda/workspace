@@ -16,33 +16,33 @@
 Additional Questions:
 
 What java version is installed? 
-java -verion
+`java -verion`
 
 How was it installed and configured? 
-yum install java
+`yum install java`
 
 Where are log files of tomcat and httpd? 
 
-tomcat: /opt/apache/tomcat/logs/
+**tomcat**: */opt/apache/tomcat/logs/*
 
-httpd: /var/log/httpd/
+**httpd**: */var/log/httpd/*
 
 Where is JAVA_HOME and what is it?
 
-JAVA_HOME it is varaible and it stores Java runtime environment location
+**JAVA_HOME it is varaible and it stores Java runtime environment location**
 
 Where is tomcat installed?
-tomcat : /opt/apache/tomcat/7.0.62/
+**tomcat** : */opt/apache/tomcat/7.0.62/*
 
 What is CATALINA_HOME?
-The variable CATALINA_HOME is a configuration property that stores the location of the Catalina files.
+**The variable CATALINA_HOME is a configuration property that stores the location of the Catalina files.**
 
 What users run httpd and tomcat processes? How is it configured?
-ps -ef | grep httpd
-ps -ef | grep tomcat
+`ps -ef | grep httpd` <br>
+`ps -ef | grep tomcat` 
 
 What configuration files are used to make components work with each other?
-httpd.conf vhost.conf workers.properties 
+**httpd.conf vhost.conf workers.properties**
 
 What does it mean: “load average: 1.18, 0.95, 0.83”?
-The load average represents the average system load over a period of time.
+**The load average represents the average system load over a period of time.**
