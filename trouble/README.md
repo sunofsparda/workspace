@@ -37,7 +37,7 @@ Where is tomcat installed?
 What is CATALINA_HOME?
 **The variable CATALINA_HOME is a configuration property that stores the location of the Catalina files.**
 
-What users run httpd and tomcat processes? How is it configured?
+What users run httpd and tomcat processes? How is it configured? <br>
 `ps -ef | grep httpd` <br>
 `ps -ef | grep tomcat` 
 
