@@ -24,7 +24,10 @@ sed -i 's/IPTABLES_SAVE_ON_RESTART="no"/IPTABLES_SAVE_ON_RESTART="yes"/g' /etc/s
 service iptables restart
 
 # update to the highest priority installed java
-alternatives --auto java
+#alternatives --auto java
+
+# set java home	
+alternatives --set java /opt/oracle/java/x64//jdk1.7.0_79/bin/java
 
 # restarting httpd webserver
 service httpd restart
