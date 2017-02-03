@@ -29,6 +29,10 @@ service iptables restart
 # set java home	
 alternatives --set java /opt/oracle/java/x64//jdk1.7.0_79/bin/java
 
+# removing output to /dev/null from Tomcat init.d script 
+sed -i '/success/d' /etc/init.d/tomcat
+sed -i 's/> \/dev\/null//g' /etc/init.d/tomcat
+
 # restarting httpd webserver
 service httpd restart
 
