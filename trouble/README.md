@@ -3,16 +3,14 @@
 || ISSUE | HOW TO FIND | TIME TO FIND | HOW TO FIX | TIME TO FIX
 --- | --- | --- | --- |---| ---  
 1 | Going to $SERVER_IP, getting redirect to http://mntlab | 1) Check server config files: <br> `cat /etc/httpd/conf/httpd.conf` |5m| Remove **redirect** directive with entire *VirtualHost* block, we have it in **vhost.conf**| 20m 
-2 | Requests are going to httpd only, not forwarding to tomcat server | 1) Check mod_jk log <br> `cat /var/log/httpd/modjk.log` <br> 2) Check virtual host and workers config files:  <br> `cat /etc/httpd/conf.d/vhost.conf` <br> Log file says that Tomcat is not started or listening on wrong port. And could not find a worker for **worker name=tomcat.worker** <br> `cat /etc/httpd/conf.d/workers.properties` | 5m |  Edit **VirtualHost** directive in **vhost.conf**, change address to * , to enable bind on all interfaces <br> Fix wrong worker name and ip/port in *workers.properties*   | 50m
+2 | Requests are going to httpd only, not forwarding to tomcat server | 1) Check virtual host config file:  <br> `cat /etc/httpd/conf.d/vhost.conf` | 5m |  Edit **VirtualHost** directive in **vhost.conf**, change address to * , to enable bind on all interfaces | 50m
 3 | Recieving error page | 1) Checking site with `curl` and getting 503 error. Tomcat unavailible. <br> 2) Check Tomcat is running <br> `netstat -tulpan` <br> there are no java services that listening to 8005,8080 ports | 20m | Start Tomcat server <br> `service tomcat start` | 1m
 4 | Still recieving error page | Check Tomcat is running and listening ports <br> `service tomcat status` <br> Output: tomcat is running <br> `netstat -tulpan` <br> Not listening. <br> Check Tomcat init script. <br> Someone forwarded output to **/dev/null** and added **success** result to all cases. So if script won't start output always will be **success** | 80m | Fix init script by removing **> /dev/null** and **success** <br> Start Tomcat <br> `service tomcat start` | 60m
-5 | Recieving error "Cannot find /tmp/bin/setclasspath.sh" when starting Tomcat | Make a config test <br> `/opt/apache/tomcat/current/bin/configtest.sh`
-
-cat /opt/apache/tomcat/7.0.62/bin/catalina.sh | grep setclass.sh  | 100m | - | m
-6 | - | - | m | - | m
-7 | - | - | m | - | m
-8 | - | - | m | - | m
-9 | - | - | m | - | m
+5 | Recieving error "Cannot find /tmp/bin/setclasspath.sh" when starting Tomcat | Start Tomcat manually. Look for dependencies. <br> Tomcat runs from **tomcat** user, and **tomcat** has custom environment variables | 100m | Removing custom environments. Starting Tomcat. | 10m
+6 | Catalina haven't got access /opt/apache/tomcat/7.0.62/logs/ | Check permissions on **logs** <br> `ls -la /opt/apache/tomcat/7.0.62/` | 50m | Restore rights on **logs** <br> `chown tomcat:tomcat /opt/apache/tomcat/7.0.62/logs/` <br> `service tomcat start` | 10m
+7 | Service tomcat is running but the page shows errors | Check java alternatives. <br> `alternatives --config java` | 40m | Change java alternatives to needed one | 10m
+8 | Service tomcat is running on 8080 but it not redirecting to 80 |  Check mod_jk log <br> `cat /var/log/httpd/modjk.log` <br> And could not find a worker for **worker name=tomcat.worker** <br> `cat /etc/httpd/conf.d/workers.properties`  | 60m |  <br> Fix wrong worker name and ip/port in *workers.properties*   | 60m
+9 | Nothing working after reboot | Check **tomcat** service is enabled <br> `chkconfig` | 30m | `chkconfig tomcat on` | 15m
 
 
 Additional Questions:
