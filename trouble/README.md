@@ -2,7 +2,7 @@
 
 || ISSUE | HOW TO FIND | TIME TO FIND | HOW TO FIX | TIME TO FIX
 --- | --- | --- | --- |---| ---  
-1 | Going to 192.168.56.10, getting redirect to http://mntlab | 1) Check site with curl <br> 2) Check server config files: <br> `cat /etc/httpd/conf/httpd.conf` <br> `cat /etc/httpd/conf.d/vhost.conf` <br> `cat /etc/httpd/conf.d/workers.properties` |60| Remove *redirect* directive with entire *VirtualHost* block, we have it in *vhost.conf* <br> Edit *VirtualHost* directive in *vhost.conf* and replace address with * | 15 
+1 | Going to $SERVER_IP, getting redirect to http://mntlab | 1) Check site with `curl $SERVER_IP` <br> 2) Check server config files: <br> `cat /etc/httpd/conf/httpd.conf` <br> `cat /etc/httpd/conf.d/vhost.conf` <br> `cat /etc/httpd/conf.d/workers.properties` |60| Remove *redirect* directive with entire *VirtualHost* block, we have it in *vhost.conf* <br> Edit *VirtualHost* directive in *vhost.conf* and replace address with * | 15 
 2 | qwe | qwe | qwe | qwe | qwe 
 3 | qwe | qwe | qwe | qwe | qwe 
 
