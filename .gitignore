@@ -1,3 +1,6 @@
 # vagrant files
 box/
 .vagrant/
+
+# soft
+soft/
