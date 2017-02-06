@@ -1,3 +1,4 @@
+### Task1
 mkdir -p /opt/oracle/jdk
 chmod +x /vagrant/soft/jdk-6u45-linux-x64.bin
 cd /opt/oracle/jdk
@@ -10,6 +11,16 @@ mkdir ~/jboss_addon
 cp -R /opt/jboss/server/all ~/custom
 # vi custom/conf/props/jmx-console-users.properties ### uncomment admin=admin
 
-# twiddle http://middlewaremagic.com/jboss/?p=726
-/opt/jboss/bin/twiddle.sh -s localhost:1099 -u admin -p admin get "jboss.system:type=ServerInfo" 
-/opt/jboss/bin/twiddle.sh -s localhost:1099 -u admin -p admin get "jboss.system:type=ServerConfig" 
+#### INFO twiddle http://middlewaremagic.com/jboss/?p=726
+/opt/jboss/bin/twiddle.sh -s localhost:1099 -u admin -p admin get "jboss.system:type=ServerInfo"
+/opt/jboss/bin/twiddle.sh -s localhost:1099 -u admin -p admin get "jboss.system:type=ServerConfig"
+
+
+
+### Task2
+
+#shutdown jboss
+./shutdown.sh -s 192.168.33.10 -u admin -p admin -S
+
+ cp -R /opt/jboss/server/all/deploy/admin-console.war ~/custom/deploy/
+
