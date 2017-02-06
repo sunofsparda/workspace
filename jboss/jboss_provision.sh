@@ -8,3 +8,8 @@ mv jboss-as/ /opt/jboss
 mv mod_cluster/ picketlink/ resteasy/ seam/ jboss_addon/
 mkdir ~/jboss_addon
 cp -R /opt/jboss/server/all ~/custom
+# vi custom/conf/props/jmx-console-users.properties ### uncomment admin=admin
+
+# twiddle http://middlewaremagic.com/jboss/?p=726
+/opt/jboss/bin/twiddle.sh -s localhost:1099 -u admin -p admin get "jboss.system:type=ServerInfo" 
+/opt/jboss/bin/twiddle.sh -s localhost:1099 -u admin -p admin get "jboss.system:type=ServerConfig" 
