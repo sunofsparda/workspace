@@ -4,3 +4,6 @@ box/
 
 # soft
 soft/
+
+# file browser dolphin files
+.directory
