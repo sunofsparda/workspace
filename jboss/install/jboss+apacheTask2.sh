@@ -81,3 +81,10 @@ worker.jbossA.lbfactor=1
 
 #### 3.1. Configure JBoss HTTP connector to handle HTTPS traffic and using HTTP basic authentication
 
+vi
+
+# jboss-web.xml
+<jboss-web>
+ <security-domain>java:/jaas/sun-security</security-domain>
+</jboss-web>
+# /jboss-web.xml
