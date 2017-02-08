@@ -1,0 +1,50 @@
+### Using excisting environment
+#! Step 1 Create 2 nodes
+cp -R ~/custom ~/custom02
+cp -R ~/custom ~/custom01
+# or
+cp -R /opt/jboss/server/all ~/custom01
+cp -R /opt/jboss/server/all ~/custom02
+
+#! Step 2 Create startup scripts for each node
+cp start_jboss.sh start_jboss01.sh
+cp start_jboss.sh start_jboss02.sh
+
+vi start_jboss01.sh
+#
+#!/bin/bash
+nohup /opt/jboss/bin/run.sh -Djboss.server.home.dir=/home/vagrant/custom01 -Djboss.server.home.url=file:/home/vagrant/custom01 -b 127.0.0.1 –c node1 –Djboss.messaging.ServerPeerID=1 >> /home/vagrant/jboss_log/jboss_custom01.log & 
+#
+
+vi start_jboss02.sh
+#
+#!/bin/bash
+nohup /opt/jboss/bin/run.sh -Djboss.server.home.dir=/home/vagrant/custom02 -Djboss.server.home.url=file:/home/vagrant/custom02 -b 192.168.33.10 –c node2 –Djboss.messaging.ServerPeerID=2 >> /home/vagrant/jboss_log/jboss_custom02.log &
+#
+
+cp shutdown_jboss.sh shutdown_jboss01.sh
+cp shutdown_jboss.sh shutdown_jboss02.sh
+
+vi shutdown_jboss01.sh
+# shutdown_jboss01.sh
+#!/bin/bash
+/opt/jboss/bin/shutdown.sh -s 127.0.0.1 -u admin -p admin -S  >> /home/vagrant/jboss_log/jboss_shutdown01.log
+# /shutdown_jboss01.sh
+
+vi shutdown_jboss02.sh
+# shutdown_jboss02.sh
+#!/bin/bash
+/opt/jboss/bin/shutdown.sh -s 192.168.33.10 -u admin -p admin -S  >> /home/vagrant/jboss_log/jboss_shutdown02.log
+# /shutdown_jboss02.sh
+
+
+
+
+
+vi ~/custom01/deploy/jbossweb.sar/server.xml
+# change port
+# server.xml
+ <Connector protocol="HTTP/1.1" port="9090"
+# /server.xml
+
+cp ~/custom01/deploy/jbossweb.sar/server.xml ~/custom02/deploy/jbossweb.sar/server.xml

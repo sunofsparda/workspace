@@ -53,7 +53,7 @@ tail custom/log/localhost_access_log.2017-02-07.log
 
 #### 1.6. Configure Apache HTTP server listen on port 8080 forwarding all requests to AJP connector on localhost:9091
 
-### install mod_jk.so !DO NOT DO LIKE THIS ON ENTERPRISE (don't install jdk)!
+#! Step 1 install mod_jk.so !DO NOT DO LIKE THIS ON ENTERPRISE (don't install jdk)!
 yum -y install httpd perl perl-CGI autoconf libtool gcc pcre-devel
 wget http://ftp.byfly.by/pub/apache.org/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.42-src.tar.gz
 tar xf tomcat-connectors-1.2.42-src.tar.gz
@@ -67,8 +67,15 @@ make
 cp ./apache-2.0/mod_jk.so /etc/httpd/modules/
 
 
+#! Step 2 uncomment  # admin=admin
+vi ~/custom/conf/props/jmx-console-users.properties
+# jmx-console-users.properties
+admin=admin
+# /jmx-console-users.properties
 
-### httpd.conf add
+
+
+#! Step 3 Edit httpd.conf, mod_jk.conf, worker.properties. add the folowing
 # httpd.conf
 Listen 8080
 
@@ -78,7 +85,6 @@ Include conf.modules.d/*.conf
 
 
 vi /etc/httpd/conf.d/mod_jk.conf
-
 # mod_jk.conf
 LoadModule jk_module  /etc/httpd/modules/mod_jk.so
 
@@ -93,7 +99,6 @@ JkMount /* jbossA
 
 
 vi /etc/httpd/conf/worker.properties
-
 # worker.properties
 worker.list=jbossA
 
@@ -237,4 +242,3 @@ vi ~/custom/deploy/jbossweb.sar/server.xml
 
 cp ~/custom/conf/cert/clientCert.p12 /vagrant/
 ### import to your browser
-
