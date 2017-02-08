@@ -1,0 +1,140 @@
+##### TASK 5
+### Using excisting environment
+#! Step 1 Create 2 nodes
+cp -R ~/custom ~/custom02
+cp -R ~/custom ~/custom01
+# or
+cp -R /opt/jboss/server/all ~/custom01
+cp -R /opt/jboss/server/all ~/custom02
+
+#! Step 2 Create startup scripts for each node
+cp start_jboss.sh start_jboss01.sh
+cp start_jboss.sh start_jboss02.sh
+
+vi start_jboss01.sh
+#
+#!/bin/bash
+nohup /opt/jboss/bin/run.sh -Djboss.server.home.dir=/home/vagrant/custom01 -Djboss.server.home.url=file:/home/vagrant/custom01 -b 127.0.0.1 -Djboss.messaging.ServerPeerID=1 >> /home/vagrant/jboss_log/jboss_custom01.log & 
+#
+
+vi start_jboss02.sh
+#
+#!/bin/bash
+nohup /opt/jboss/bin/run.sh -Djboss.server.home.dir=/home/vagrant/custom02 -Djboss.server.home.url=file:/home/vagrant/custom02 -b 192.168.33.10 -Djboss.messaging.ServerPeerID=2 >> /home/vagrant/jboss_log/jboss_custom02.log &
+#
+
+cp shutdown_jboss.sh shutdown_jboss01.sh
+cp shutdown_jboss.sh shutdown_jboss02.sh
+
+vi shutdown_jboss01.sh
+# shutdown_jboss01.sh
+#!/bin/bash
+/opt/jboss/bin/shutdown.sh -s 127.0.0.1 -u admin -p admin -S  >> /home/vagrant/jboss_log/jboss_shutdown01.log
+# /shutdown_jboss01.sh
+
+vi shutdown_jboss02.sh
+# shutdown_jboss02.sh
+#!/bin/bash
+/opt/jboss/bin/shutdown.sh -s 192.168.33.10 -u admin -p admin -S  >> /home/vagrant/jboss_log/jboss_shutdown02.log
+# /shutdown_jboss02.sh
+
+
+vi ~/custom01/deploy/jbossweb.sar/server.xml
+# change port
+# server.xml
+<Connector protocol="HTTP/1.1" port="9090"
+# add jvmRoute
+<Engine name="jboss.web" defaultHost="localhost" jvmRoute="jbossA"> 
+# /server.xml
+
+vi ~/custom01/deploy/jbossweb.sar/server.xml
+# change port
+# server.xml
+<Connector protocol="HTTP/1.1" port="9090"
+# add jvmRoute
+<Engine name="jboss.web" defaultHost="localhost" jvmRoute="jbossB"> 
+# /server.xml
+
+### 1.2. Deploy sample application into both nodes
+cp /vagrant/install/counter.jar ~/custom01/deploy/
+cp /vagrant/install/counter.jar ~/custom02/deploy/
+cp /vagrant/install/client.zip ~/
+unzip client.zip -D client
+cd client
+vi run.sh
+# run.sh
+java -cp /opt/jboss/client/jbossall-client.jar: Client 
+# /run.sh
+
+
+
+
+
+
+
+
+
+
+
+
+##### TASK 6
+### 1.1. Configure two JBoss Application Server instances implementing HTTP load-balancing using Apache HTTP server
+# edit worker.properties
+vi /etc/httpd/conf/worker.properties
+# worker.properties
+worker.list=jbossA,jbossB,jboss-cluster
+
+worker.jbossA.port=8009
+worker.jbossA.host=127.0.0.1
+worker.jbossA.type=ajp13
+worker.jbossA.lbfactor=1
+
+worker.jbossB.port=8009
+worker.jbossB.host=192.168.33.10
+worker.jbossB.type=ajp13
+worker.jbossB.lbfactor=1
+
+worker.jboss-cluster.type=lb
+worker.jboss-cluster.balanced_workers=jbossA,jbossB
+worker.jboss-cluster.sticky_session=1
+# /worker.properties
+
+
+vi /etc/httpd/conf.d/mod_jk.conf
+# mod_jk.conf
+LoadModule jk_module  /etc/httpd/modules/mod_jk.so
+JkWorkersFile /etc/httpd/conf/worker.properties
+JkLogFile /var/log/httpd/mod_jk.log
+JkLogLevel info
+JkLogStampFormat "[%a %b %d %H:%M:%S %Y] "
+JkOptions +ForwardKeySize +ForwardURICompat -ForwardDirectories
+JkRequestLogFormat "%w %V %T"
+JkMount /* jboss-cluster   
+# /mod_jk.conf
+
+
+### 1.2. Change the configuration to implement HTTP session stickiness
+
+#! Step 1 Prepare your app
+### add <distributable/> to apps web.xml <web-app> block
+# unzip hsr-test.war
+vi hsr-test.war/WEB-INF/web.xml
+# web.xml 
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>hsr-test</display-name>
+  <servlet>
+    <description>HTTP Session Replication Test</description>
+    <servlet-name>HSRTest</servlet-name>
+    <servlet-class>com.mouseoverstudio.test.HSRTest</servlet-class>
+  </servlet>
+  <distributable/> # THIS!
+  <servlet-mapping>
+    <servlet-name>HSRTest</servlet-name>
+    <url-pattern>/do</url-pattern>
+  </servlet-mapping>
+</web-app>
+# /web.xml 
+
+cp hsr-test.war ~/custom01/deploy
+cp hsr-test.war ~/custom02/deploy
