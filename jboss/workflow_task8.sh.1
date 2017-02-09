@@ -1,0 +1,56 @@
+##### 1.1. Pass appropriate garbage collector parameters to use serial, parallel and concurrent ones
+
+#-XX:+UseSerialGC	Serial Garbage Collector
+#-XX:+UseParallelGC	Parallel Garbage Collector
+#-XX:+UseConcMarkSweepGC	CMS Garbage Collector
+
+java -XX:+Use<name>GC -jar app.jar &
+
+
+##### 1.2. For each type of garbage collectors, get the stats on generations when running sample application
+# man http://docs.oracle.com/javase/7/docs/technotes/tools/share/jmap.html
+/opt/oracle/jdk/current/bin/jmap -heap $PID
+##### 1.3. Generate the heap dumps while the application is running
+/opt/oracle/jdk/current/bin/jmap -heap:format=b $PID
+
+### will show the default garbage collector. I have also found the following page useful which details the default garbage collector for various operating systems. 
+java -XX:+PrintCommandLineFlags -version
+
+# SerialGC
+java -XX:+UseSerialGC -jar app.jar &
+# [1] 8588 
+/opt/oracle/jdk/current/bin/jmap -heap 8588
+/opt/oracle/jdk/current/bin/jmap -heap:format=b 8588
+#/opt/oracle/jdk/current/bin/jmap -dump:format=b,file=<name>.bin $PID
+
+# ParallelGC
+java -XX:+UseParallelGC -jar app.jar &
+/opt/oracle/jdk/current/bin/jmap -heap $PID
+/opt/oracle/jdk/current/bin/jmap -heap:format=b $PID
+#/opt/oracle/jdk/current/bin/jmap -dump:format=b,file=<name>.bin $PID
+
+# ConcMarkSweepGC
+java -XX:+UseConcMarkSweepGC -jar app.jar &
+/opt/oracle/jdk/current/bin/jmap -heap $PID
+/opt/oracle/jdk/current/bin/jmap -heap:format=b $PID
+#/opt/oracle/jdk/current/bin/jmap -dump:format=b,file=<name>.bin $PID
+
+
+
+### DUMP jboss
+# find jboss pid
+ps aux | grep jboss
+# dump 
+/opt/oracle/jdk/current/bin/jmap -heap:format=b $PID
+#/opt/oracle/jdk/current/bin/jmap -dump:format=b,file=<name>.bin $PID
+
+
+##### 1.4. Change connection pool size for HTTP connector
+
+vi ~/custom02/deploy/jbossweb.sar/server.xml 
+# add maxThreads="20" to <!-- A HTTP/1.1 Connector on port 8080 -->  section
+
+# server.xml
+<Connector protocol="HTTP/1.1" port="9090" address="${jboss.bind.address}"
+connectionTimeout="20000" redirectPort="8443" maxThreads="20" />
+# /server.xml

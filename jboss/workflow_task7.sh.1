@@ -1,0 +1,47 @@
+### Run app
+java -jar app.jar &
+
+### Looking for a thread with the highest time SPID (DEC)
+ps -Tp 4695
+
+### Getting dump of a process
+kill -3 4695
+# or
+/opt/oracle/jdk/current/bin/jstack 4695 > jstack_app.log
+
+### Looking for a thread with the same nid (HEX) 4696 = 0x1258
+cat jstack_app.log
+
+##### 1.3. Increase logging verbosity for sample application, using both configuration file modification and JMX console (DEBUG log level for some class and DEBUG for root log level)
+
+### Logging at custom01 node
+### Pass the -Djboss.server.log.threshold parameter while starting the server, to avoid log4j.xml file modification
+vi ~/jboss_initscripts/start_jboss01.sh
+
+# add parameter
+-Djboss.server.log.threshold=DEBUG
+
+
+### Logging at custom02 node
+vi ~/custom02/conf/jboss-log4j.xml
+
+# Setting DEBUG for some class
+<!-- Limit the com.sun category to INFO as its FINE is verbose -->
+<category name="com.sun">
+<priority value="DEBUG"/> <!-- frome INFO to DEBUG -->
+</category>
+
+
+# Setting DEBUG for root log level
+<root> # root log level
+	<!--
+	Set the root logger priority via a system property. Note this is parsed by log4j,
+	so the full JBoss system property format is not supported; e.g.
+	setting a default via ${jboss.server.log.threshold:WARN} will not work. -->
+<!--<priority value="${jboss.server.log.threshold}"/>  -->
+	<priority value="DEBUG"/> # DEBUG
+	<appender-ref ref="CONSOLE"/>
+	<appender-ref ref="FILE"/>
+</root>
+
+
