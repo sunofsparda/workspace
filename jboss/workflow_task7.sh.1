@@ -1,5 +1,9 @@
-### Run app
+##### 1.1. Take several thread dumps from sample application, using both signal and jstack tool methods
+##### 1.2. Analyze what’s causing high CPU usage
+
+### Run app and check its CPU usage
 java -jar app.jar &
+htop
 
 ### Looking for a thread with the highest time SPID (DEC)
 ps -Tp 4695
