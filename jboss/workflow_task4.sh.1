@@ -1,0 +1,23 @@
+cp -R /opt/jboss/server/all ~/custom001
+
+vi /opt/jboss/docs/examples/jms/example-destinations-service.xml
+# copy example testTopic
+
+# paste
+vi ~/custom001/deploy/messaging/destinations-service.xml
+
+cd jms
+./run.sh
+
+# output
+[vagrant@epplkraw0381t1 jms.zip]$ ./run.sh
+Topic /topic/testTopic exists
+The message was successfully published on the topic
+Received message: Hello!
+The example connected to JBoss Messaging version 1.4.8.SP5 (1.4)
+
+#####################
+###    SUCCESS!   ###
+#####################
+[vagrant@epplkraw0381t1 jms.zip]$
+# /output

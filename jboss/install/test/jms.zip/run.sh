@@ -1,0 +1,1 @@
+java -cp /opt/jboss-eap-5.1/jboss-as/client/jbossall-client.jar: org.jboss.example.jms.topic.TopicExample

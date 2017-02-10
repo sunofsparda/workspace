@@ -1,0 +1,69 @@
+##### 1.1. Change JBoss AS configuration to start two instances on one server, first instance should have its ports starting from 5000, second – from 6000. Both instances should use different directories for logs and temporary files
+cp -R /opt/jboss/server/all/ ~/custom001
+
+vim ~/custom001/conf/bindingservice.beans/META-INF/bindings-jboss-beans.xml 
+
+### Add 04,05 binding sets
+# bindings-jboss-beans.xml 
+         <!--  The binding sets -->
+         <parameter>
+            <set>
+               <inject bean="PortsDefaultBindings"/>
+               <inject bean="Ports01Bindings"/>
+               <inject bean="Ports02Bindings"/>
+               <inject bean="Ports03Bindings"/>
+               <inject bean="Ports04Bindings"/> # add
+               <inject bean="Ports05Bindings"/> # add
+            </set>
+         </parameter>
+
+   <!-- The ports-04 bindings are obtained by taking ports-default and adding 4000 to each port value -->
+   <bean name="Ports04Bindings" class="org.jboss.services.binding.impl.ServiceBindingSet">
+      <constructor>
+         <!--  The name of the set -->
+         <parameter>ports-04</parameter>
+         <!-- Default host name -->
+         <parameter>${jboss.bind.address}</parameter>
+         <!-- The port offset -->
+         <parameter>4000</parameter>
+         <!-- Set of bindings to which the "offset by X" approach can't be applied -->
+         <parameter><null/></parameter>
+      </constructor>
+   </bean>
+
+
+   <!-- The ports-05 bindings are obtained by taking ports-default and adding 5000 to each port value -->
+   <bean name="Ports05Bindings" class="org.jboss.services.binding.impl.ServiceBindingSet">
+      <constructor>
+         <!--  The name of the set -->
+         <parameter>ports-05</parameter>
+         <!-- Default host name -->
+         <parameter>${jboss.bind.address}</parameter>
+         <!-- The port offset -->
+         <parameter>5000</parameter>
+         <!-- Set of bindings to which the "offset by X" approach can't be applied -->
+         <parameter><null/></parameter>
+      </constructor>
+   </bean>
+# /bindings-jboss-beans.xml 
+
+cp -R ~/custom001 ~/custom002
+
+
+
+vim jboss_initscripts/start_jboss001.sh
+# start_jboss001.sh
+#!/bin/bash
+nohup /opt/jboss/bin/run.sh -Djboss.server.home.dir=/home/vagrant/custom001 -Djboss.server.home.url=file:/home/vagrant/custom001 -b 192.168.33.10 -Djboss.service.binding.set=ports-04  >> /home/vagrant/jboss_log/jboss_custom001.log &
+# /start_jboss001.sh
+
+
+
+vi jboss_initscripts/shutdown_jboss002.sh
+# shutdown_jboss002.sh
+#!/bin/bash
+/opt/jboss/bin/shutdown.sh -s 192.168.33.10:6099 -u admin -p admin -S  >> /home/vagrant/jboss_log/jboss_shutdown002.log
+# /shutdown_jboss002.sh
+
+##### 1.2. Perform the steps necessary to remove HTTP invoker service
+rm ~/custom001/deploy/httpha-invoker.sar
